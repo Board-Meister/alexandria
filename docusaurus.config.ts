@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Boardmeister documentation archive',
-  tagline: 'Contains documentation on all Boardmeister originals®',
+  title: 'Board Meister documentation',
+  tagline: 'Read all on about Board Meister originals®',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -33,7 +33,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           editUrl:
-            'https://github.com/Board-Meister/alexandria/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/Board-Meister/alexandria/blob/master/',
         },
         blog: {
           showReadingTime: true,
@@ -42,7 +42,7 @@ const config: Config = {
             xslt: true,
           },
           editUrl:
-            'https://github.com/Board-Meister/alexandria/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/Board-Meister/alexandria/blob/master/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -56,24 +56,18 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/social-card.jpg',
     navbar: {
-      title: 'My Site',
+      title: 'Board Meister',
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: 'Board Meister Logo',
+        src: 'img/logo_small.png',
       },
       items: [
+        {to: '/docs/category/marshal', label: 'Marshal', position: 'left'},
+        {to: '/docs/category/herald', label: 'Herald', position: 'left'},
         {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Tutorial',
-        },
-        {to: '/blog', label: 'Blog', position: 'left'},
-        {
-          href: 'https://github.com/Board-Meister/alexandria',
+          href: 'https://github.com/Board-Meister',
           label: 'GitHub',
           position: 'right',
         },
@@ -81,53 +75,15 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/Board-Meister/alexandria',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Boardmeister, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Boardmeister. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
+    colorMode: {
+      defaultMode: 'dark',
+    }
   } satisfies Preset.ThemeConfig,
 };
 
