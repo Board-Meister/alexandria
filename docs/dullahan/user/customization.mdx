@@ -1,0 +1,168 @@
+---
+sidebar_position: 3
+sidebar_label: 'Customization'
+---
+
+export const Preventable = () => (
+  <a href="/docs/dullahan/events#preventable" target="_blank">Preventable.</a>
+);
+
+# Customization
+
+Following Dullahan principles Users module is highly customizable and extendable. Here you will find event definitions
+and few how-to guides for more difficult topics.
+
+## Events
+
+Most of the actions happen before, after and on the event calls, making it possible to extend or even replace
+default behavior of the framework by listening for the specific events.
+
+```php title="Symfony event listener example"
+use Dullahan\User\Presentation\Event\Transport\PreRegistration;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+
+class RegistrationListener
+{
+    #[AsEventListener(event: PreRegistration::class)]
+    public function onPreRegistration(PreRegistration $event): void
+    {
+        /// Handle the event!
+    }
+}
+```
+
+### Registration
+
+#### `PreRegistration`
+
+Event fired before user tries to register himself.
+
+#### `RegistrationValidation`
+
+<Preventable/> Event responsible for registration validation.
+
+#### `PostRegistration`
+
+Event fires if registration was successful and user was created.
+
+### Login
+
+#### `GetCSRF`
+
+<Preventable/> Fires during User authorization. Retrieves CSRF token from the request.
+
+#### `PostLogin`
+
+Fires after successful login.
+
+#### `JWTHeaderCreate`
+
+Event responsible for assembling the header of JWT token. Starts with already set
+[default headers](./authentication.md#prologing-current-session).
+
+
+#### `JWTPayloadCreate`
+
+Event responsible for assembling the payload of JWT token. Starts with already set
+[default payload](./authentication.md#csrf-token).
+
+:::info
+User module is currently being refactor into Event Core structure. Additional events for resetting password or changing
+email will appear shortly.
+:::
+
+## How to guides
+
+### Custom CSRF token retrieval
+
+If the default CSRF token placement (custom header `X-CSRF-Token`) is not to your specification you can easily change
+from where it is retrieved be listening for `GetCSRF` event.
+
+```php title="Retrieve csrf token from cookie"
+use Dullahan\User\Presentation\Event\Transport\GetCSRF;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+
+class CSRFListener
+{
+    #[AsEventListener(event: GetCSRF::class)]
+    public function onGetCSRF(GetCSRF $event): void
+    {
+        $event->preventDefault(); # Prevent default behavior
+        $event->setCsrf($event->getRequest()->getCookie('csrf-token'));
+    }
+}
+```
+
+### One session per user
+
+:::info
+There is no one correct way of doing it, so this is more of a advise then a guide.
+:::
+
+Each JWT token in its payload has `session` with UUIDv7 inside of it as a session identifier. You could save this
+identifier next to user ID in a OneToOne fashion (be it a key-value store like Redis or new table/field in MySQL
+database) and do not accept tokens that don't match this relation.
+
+Each time new token is created, the `session` parameter will update the session {'<->'} user ID relation making it the
+only currently valid token.
+
+```php title="Example of implementation"
+use Dullahan\User\Domain\AccessControlService;
+use Dullahan\User\Domain\Exception\AccessDeniedHttpException;
+
+final class SingleSessionAccessControl extends AccessControlService
+{
+    public function __construct(
+        string $secret,
+        AuthorizationCheckerInterface $authorizationChecker,
+        EventDispatcherInterface $eventDispatcher,
+        private UserSessionRepository $userSessionRepository, // Some custom repository for verifying session state in database
+    ) {
+        parent::__construct(secret, authorizationChecker, eventDispatcher);
+    }
+
+    public function validateTokenCredibility(RequestInterface $request, array $tokenPayload): void
+    {
+        parent::validateTokenCredibility($request, $tokenPayload);
+
+        ['session' => $session, 'user_id' => $userId] = $tokenPayload;
+
+        if (!$this->userSessionRepository->isValidSession($userId, $session)) {
+            throw new AccessDeniedHttpException('Invalid session');
+        }
+    }
+}
+```
+
+:::tip
+If you are going to implement it using this method make sure that your new class is properly bonded to
+`AccessControlInterface` interface.
+:::
+
+```yaml
+# config/services.yaml
+services:
+    Dullahan\User\Port\Application\AccessControlInterface: '@App\Foo\SingleSessionAccessControl'
+```
+
+### Custom JWT expiry time
+
+To change the expiry time of the JWT token you need to listen for `JWTHeaderCreate` event and change `exp` header
+to the needed time. `exp` header is a timestamp in seconds.
+
+
+```php title="Retrieve csrf token from cookie"
+use Dullahan\User\Presentation\Event\Transport\JWTHeaderCreate;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+
+class JWTListener
+{
+    #[AsEventListener(event: JWTHeaderCreate::class)]
+    public function onJWTHeaderCreate(JWTHeaderCreate $event): void
+    {
+        $headers = $event->getHeader();
+        $headers['exp'] = time() + 60 * 15; // 15 minutes
+        $event->setHeader($headers);
+    }
+}
+```

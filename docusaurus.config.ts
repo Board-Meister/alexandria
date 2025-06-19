@@ -66,6 +66,7 @@ const config: Config = {
       items: [
         {to: '/docs/category/marshal', label: 'Marshal', position: 'left'},
         {to: '/docs/category/herald', label: 'Herald', position: 'left'},
+        {to: '/docs/category/dullahan', label: 'Dullahan', position: 'left'},
         {
           href: 'https://github.com/Board-Meister',
           label: 'GitHub',
@@ -80,6 +81,7 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      additionalLanguages: ['php', 'http', 'yaml'],
     },
     colorMode: {
       defaultMode: 'dark',

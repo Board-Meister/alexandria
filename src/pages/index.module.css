@@ -14,3 +14,9 @@
 .cardGoTo {
   border: 1px solid var(--ifm-color-emphasis-200);
 }
+
+@media screen and (max-width: 576px) {
+  .heroTitleMobile {
+    font-size: 2.5rem;
+  }
+}

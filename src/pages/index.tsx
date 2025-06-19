@@ -13,7 +13,7 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <img src={require('@site/static/img/word_cloud_logo.png').default} alt="Cloud logo" width="220" />
-        <Heading as="h1" className="hero__title">
+        <Heading as="h1" className={clsx('hero__title', styles.heroTitleMobile)}>
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
@@ -34,7 +34,7 @@ const LibraryGotoCard: React.FC<{
   }
 ) => {
   return (
-      <div className="col col--6">
+      <div className="col col--6 margin-bottom--lg">
         <div className={clsx('card padding--lg', styles.cardGoTo)}>
           <h1>{label}</h1>
           <p>{description}</p>
@@ -66,6 +66,11 @@ export default function Home(): ReactNode {
             description={"Herald is a asynchronous, prioritizable event handler. It allows you to trigger "
               + "asynchronous events in a specific order."}
             label="Herald"/>
+          <LibraryGotoCard
+            href="/docs/dullahan"
+            description={"Dullahan is modular, headless, Product Information and Digital Asset Management system, "
+              + "developed for speeding up development of centralized information management systems."}
+            label="Dullahan"/>
         </div>
       </section>
     </Layout>

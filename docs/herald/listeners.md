@@ -80,7 +80,7 @@ Registration accepts quite a few parameters, to make sure you have control over 
         ],
     })
     ```
-    [Read more on subscription object](./registration.md#registration-object)
+    [Read more on subscription object](./listeners.md#registration-object)
 - `constraint` - name of the [Marshal](/docs/marshal/README.md) plugin or just an object. Used primarily for integration
 with Marshal.
 - `sort` - should events be sorted after registration, defaults to `true`. Pass `false` if you know you will register
