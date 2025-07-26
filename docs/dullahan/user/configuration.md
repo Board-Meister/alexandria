@@ -38,7 +38,7 @@ security:
             json_login:
                 check_path: api_user_login
 
-            # Name of the logout path provided by Dullahan User module (/_/user/logout)
+            # Name of the logout path provided by Dullahan User bundle (/_/user/logout)
             logout:
                 path: api_user_logout
 ```

@@ -49,7 +49,9 @@ const config: Config = {
           onUntruncatedBlogPosts: 'warn',
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: [
+            './src/css/custom.css',
+          ],
         },
       } satisfies Preset.Options,
     ],
@@ -81,7 +83,8 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
-      additionalLanguages: ['php', 'http', 'yaml'],
+      additionalLanguages: ['php', 'http', 'yaml', 'bash', 'json'],
+
     },
     colorMode: {
       defaultMode: 'dark',
