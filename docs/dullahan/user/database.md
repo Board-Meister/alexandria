@@ -5,7 +5,7 @@ sidebar_label: 'Database Schema'
 
 # Database Schema
 
-User modules is made of two tables: `user` (User entity) and `user_data` (UserData entity). Each row in `user` table
+User bundles is made of two tables: `user` (User entity) and `user_data` (UserData entity). Each row in `user` table
 has equivalent in the `user_data` table on OneToOne relation.
 
 ## `user` table
