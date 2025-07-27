@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunktest=self.webpackChunktest||[]).push([[244],{6858:e=>{e.exports=JSON.parse('{"categoryGeneratedIndex":{"title":"Marshal","slug":"/category/marshal","permalink":"/docs/category/marshal","sidebar":"tutorialSidebar","navigation":{"next":{"title":"Intro","permalink":"/docs/marshal/"}}}}')}}]);
