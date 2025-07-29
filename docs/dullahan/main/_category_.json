@@ -1,0 +1,7 @@
+{
+  "label": "Main Bundle",
+  "position": 10,
+  "link": {
+    "type": "generated-index"
+  }
+}
