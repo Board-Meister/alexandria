@@ -73,6 +73,8 @@ class GetEntityDefinitionWithoutEntityExample {
 
 
 ```php
+use Dullahan\Entity\Port\Application\EntityPersistManagerInterface;
+
 class CreateEntityExample {
     public function __construct(
         private EntityPersistManagerInterface $entityPersistManager,
