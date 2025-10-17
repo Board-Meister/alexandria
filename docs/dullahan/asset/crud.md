@@ -118,9 +118,11 @@ X-CSRF-Token: ...
 Accept: application/json
 
 {
+  pagination: {
     offset: 0,
     limit: 100,
     filter: [["directory", "=", "/test/"]]
+  }
 }
 ```
 
